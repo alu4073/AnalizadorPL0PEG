@@ -10,6 +10,12 @@ task :clean do
   sh "rm -f public/pl0.js"
 end
 
+task :ex do
+  sh "rm -f public/pl0.js"
+  sh "pegjs -e pl0 views/pl0.pegjs public/pl0.js"
+  sh "ruby main.rb"
+end
+
 desc "Compile public/styles.scss into public/styles.css using sass"
 task :sass do
   sh "sass  public/styles.scss public/styles.css"
