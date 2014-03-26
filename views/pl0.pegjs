@@ -18,16 +18,36 @@
     }
     return result;
   }
-}
+} 
+
+program = b:(block)+ DOT { return {Program:b }; }
+
+block =  CONST c:(constants)+ SEMICOLON { return {type: 'CONST', value:c }; }
+      /  VAR v:(identificators)+ SEMICOLON { return {type: 'VAR', value:v }; }
+      /  p:(process)+  { return { sentences:p }; }
+
+constants = COMMA i:ID ASSIGN n:NUMBER { return {type: '=', ident:i, value:n }; }
+          / i:ID ASSIGN n:NUMBER { return {type: '=', ident:i, value:n }; }
+
+identificators = COMMA i:ID { return {ident:i}; }
+               / i:ID  { return {ident:i}; }
+
+arguments = COMMA VAR i:ID { return {ident:i}; }
+          / VAR i:ID  { return {ident:i}; }
+
+process = PROCEDURE i:ID LEFTPAR a:(arguments)+ RIGHTPAR COLON b:(block)+ END SEMICOLON { return {type: 'PROCEDURE', ident:i, arguments:a, block:b }; }
+        / PROCEDURE i:ID COLON b:(block)+ END SEMICOLON { return {type: 'PROCEDURE', ident:i, block:b }; }
+        / s:st { return { sentence:s }; }
 
 st     = i:ID ASSIGN e:exp SEMICOLON { return {type: '=', left: i, right: e}; }  /* Sentencia de asignación */     
        / i:ID ASSIGN e:exp { return {type: '=', left: i, right: e}; }   
        / IF e:exp THEN st:st ELSE sf:st  { return {type: 'IFELSE', condition:e, true_st:st, false_st:sf }; }
        / IF e:exp THEN s:st  { return {type: 'IF', condition:e, statement:s }; }
-       / CALL i:ID  { return {type: 'CALL', value:i }; }
+       / CALL i:ID LEFTPAR a:(identificators)+ RIGHTPAR SEMICOLON { return {type: 'CALL', value:i, arguments:a }; }
+       / CALL i:ID SEMICOLON { return {type: 'CALL', value:i}; }
        / P e:exp  { return {type: 'P', value:e }; }
-       / WHILE c:cond DO s:st  { return {type: 'WHILE', condition:c, statement:s }; }
-       / BEGIN s:(st)+ SEMICOLON END { return {type: 'BEGIN', statement:s }; }
+       / WHILE c:cond DO s:(st)+  { return {type: 'WHILE', condition:c, statement:s }; }
+       / BEGIN s:(st)+ END { return {type: 'BEGIN', statement:s }; }
 
 cond   = ODD e:exp  { return {type: 'ODD', value:e }; }
        / e1:exp op:COMPARISON e2:exp  { return {type: op, left:e1, right:e2 }; }
@@ -46,6 +66,8 @@ ASSIGN     = _ op:'=' _  { return op; }
 ADD        = _ op:[+-] _ { return op; }
 MUL        = _ op:[*/] _ { return op; }
 SEMICOLON  = _ op:[;] _ { return op; }
+COLON      = _ op:[:] _ { return op; }
+COMMA      = _ op:[,] _ 
 COMPARISON = _ op:[<>=!][=] _ { return op; }
            / _ op:[<>] _ { return op; }
 
@@ -61,8 +83,11 @@ WHILE= _ "while" _
 DO   = _ "do" _
 BEGIN= _ "begin" _
 END  = _ "end" _
+CONST  = _ "const" _
+VAR  = _ "var" _
+PROCEDURE  = _ "procedure" _
 
-ID       = _ id:$[a-zA-Z_0-9]+ _ 
+ID       = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ 
             { 
               return { type: 'ID', value: id }; 
             }
@@ -70,3 +95,4 @@ NUMBER   = _ digits:$[0-9]+ _
             { 
               return { type: 'NUM', value: parseInt(digits, 10) }; 
             }
+DOT  = _ "." _
