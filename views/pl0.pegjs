@@ -88,7 +88,7 @@ CONST= _ "const" _
 VAR = _ "var" _
 PROCEDURE = _ "procedure" _
 
-ID       = _ id:$[a-zA-Z_0-9]+ _ 
+ID       = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ 
             { 
               return { type: 'ID', value: id }; 
             }
