@@ -35,8 +35,8 @@ identificators = COMMA i:ID { return {ident:i}; }
 arguments = COMMA VAR i:ID { return {ident:i}; }
           / VAR i:ID {return {ident:i}; }
           
-process = PROCEDURE i:ID LEFTPAR a:(arguments)+ RIGHTPAR COLON b:block END SEMICOLON { return { type: 'PROCEDURE', ident:i, arguments:a block:b }; }
-        / PROCEDURE i:ID COLON b:block END SEMICOLON { return { type: 'PROCEDURE', ident:i, block:b }; }
+process = PROCEDURE i:ID LEFTPAR a:(arguments)+ RIGHTPAR COLON b:(block)+ END SEMICOLON { return { type: 'PROCEDURE', ident:i, arguments:a, block:b }; }
+        / PROCEDURE i:ID COLON b:(block)+ END SEMICOLON { return { type: 'PROCEDURE', ident:i, block:b }; }
         / s:st {return {sentence:s }; }
         
 st     = i:ID ASSIGN e:exp SEMICOLON { return {type: '=', left: i, right: e}; }  /* Sentencia de asignación */     
