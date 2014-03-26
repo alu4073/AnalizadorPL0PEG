@@ -24,26 +24,20 @@ Recuerde que un PEG $G$ es una cuaterna $G =(\Sigma,V,P,S)$.
   <li> $V = \{ st, exp, term, factor \} \cup$ <br />
   $\{ASSIGN, ADD, MUL, LEFTPAR, RIGHTPAR \} \cup$ <br />
   $\{ID, NUMBER, \_ \}$
-  <li> Reglas de Análisis:
+  <li> Gramática:
   <ol>
 <pre>
-st     = ID ASSIGN exp
-exp    = term   (ADD term)*
-term   = factor (MUL factor)*
 
-factor = NUMBER
-       / ID
-       / LEFTPAR exp RIGHTPAR
+   program -> b:(block)+ DOT
 
-_ = $[ \t\n\r]*
+   block -> CONST c:(constants)+ SEMICOLON | VAR v:(identificators)+ SEMICOLON | p:(process)+ 
 
-ASSIGN   = _ '=' _
-ADD      = _ [+-] _
-MUL      = _ [*/] _
-LEFTPAR  = _"("_
-RIGHTPAR = _")"_
-ID       = _ [a-zA-Z_][a-zA-Z_0-9]* _
-NUMBER   = _ [0-9]+ _
+   constants -> COMMA i:ID ASSIGN n:NUMBER | i:ID ASSIGN n:NUMBER 
+          
+   identificators -> COMMA i:ID | i:ID 
+
+   arguments -> COMMA VAR i:ID | VAR i:ID 
+
 </pre>
   </ol>
   <li> Expresión de arranque: $st$
