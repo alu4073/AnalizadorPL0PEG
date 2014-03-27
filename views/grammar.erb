@@ -55,7 +55,7 @@ Recuerde que un PEG $G$ es una cuaterna $G =(\Sigma,V,P,S)$.
                      / CALL i:ID SEMICOLON 
                      / P e:exp  
                      / WHILE c:cond DO s:st  
-                     / BEGIN s:(st)+ END 
+                     / BEGIN s:(st)+ END SEMICOLON 
 
       cond           = ODD e:exp  
                      / e1:exp op:COMPARISON e2:exp  
@@ -75,16 +75,31 @@ Recuerde que un PEG $G$ es una cuaterna $G =(\Sigma,V,P,S)$.
       ASSIGN     = _ op:'=' _  
       ADD        = _ op:[+-] _ 
       MUL        = _ op:[*/] _ 
-      SEMICOLON  = _ op:[;] _ 
-      DOT        = _ op:[.] _ 
-      COMMA      = _ op:[,] _ 
-      COLON      = _ op:[:] _ 
       COMPARISON = _ op:[<>=!][=] _ 
                  / _ op:[<>] _ 
-      ID       = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _         
-      NUMBER   = _ digits:$[0-9]+ _ 
-            
-
+      ID         = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _         
+      NUMBER     = _ digits:$[0-9]+ _ 
+          
+  
+      DOT        = _ "." _
+      SEMICOLON  = _ ";" _
+      COLON      = _ ":" _
+      COMMA      = _ "," _
+      LEFTPAR    = _"("_
+      RIGHTPAR   = _")"_
+      IF         = _ "if" _   
+      THEN       = _ "then" _
+      ELSE       = _ "else" _
+      CALL       = _ "call" _
+      P          = _ "p" _
+      ODD        = _ "odd" _
+      WHILE      = _ "while" _
+      DO         = _ "do" _
+      BEGIN      = _ "begin" _
+      END        = _ "end" _
+      CONST      = _ "const" _
+      VAR        = _ "var" _
+      PROCEDURE  = _ "procedure" _
 
 </pre>
   </ol>

@@ -16,7 +16,7 @@
   }
 } 
 
-program = b:(block)+ DOT { return {Program:b }; }
+program = b:(block)+ DOT { return {program:b }; }
 
 block =  CONST c:(constants)+ SEMICOLON { return {type: 'CONST', value:c }; }
       /  VAR v:(identificators)+ SEMICOLON { return {type: 'VAR', value:v }; }
@@ -35,15 +35,15 @@ process = PROCEDURE i:ID LEFTPAR a:(arguments)+ RIGHTPAR COLON b:(block)+ END SE
         / PROCEDURE i:ID COLON b:(block)+ END SEMICOLON { return {type: 'PROCEDURE', ident:i, block:b }; }
         / s:st { return { sentence:s }; }
 
-st     = i:ID ASSIGN e:exp SEMICOLON { return {type: '=', left: i, right: e}; }  /* Sentencia de asignación */     
-       / i:ID ASSIGN e:exp { return {type: '=', left: i, right: e}; }   
+st     = i:ID ASSIGN e:exp SEMICOLON { return {type: 'ASSIGN', left: i, right: e}; }  /* Sentencia de asignación */     
+       / i:ID ASSIGN e:exp { return {type: 'ASSIGN', left: i, right: e}; }   
        / IF c:cond THEN st:st ELSE sf:st  { return {type: 'IFELSE', condition:c, true_st:st, false_st:sf }; }
        / IF c:cond THEN s:st  { return {type: 'IF', condition:c, statement:s }; }
        / CALL i:ID LEFTPAR a:(identificators)+ RIGHTPAR SEMICOLON { return {type: 'CALL', value:i, arguments:a }; }
        / CALL i:ID SEMICOLON { return {type: 'CALL', value:i}; }
        / P e:exp  { return {type: 'P', value:e }; }
        / WHILE c:cond DO s:(st)+  { return {type: 'WHILE', condition:c, statement:s }; }
-       / BEGIN s:(st)+ END { return {type: 'BEGIN', statement:s }; }
+       / BEGIN s:(st)+ END SEMICOLON { return {type: 'BEGIN', statement:s }; }
 
 cond   = ODD e:exp  { return {type: 'ODD', value:e }; }
        / e1:exp op:COMPARISON e2:exp  { return {type: op, left:e1, right:e2 }; }

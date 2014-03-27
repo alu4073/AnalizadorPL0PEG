@@ -23,6 +23,9 @@ helpers do
   end
 end
 
+get '/tests' do
+  erb :tests
+end
 
 get '/grammar' do
   erb :grammar

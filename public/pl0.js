@@ -34,7 +34,7 @@ pl0 = (function() {
 
         peg$c0 = peg$FAILED,
         peg$c1 = [],
-        peg$c2 = function(b) { return {Program:b }; },
+        peg$c2 = function(b) { return {program:b }; },
         peg$c3 = function(c) { return {type: 'CONST', value:c }; },
         peg$c4 = function(v) { return {type: 'VAR', value:v }; },
         peg$c5 = function(p) { return { sentences:p }; },
@@ -43,7 +43,7 @@ pl0 = (function() {
         peg$c8 = function(i, a, b) { return {type: 'PROCEDURE', ident:i, arguments:a, block:b }; },
         peg$c9 = function(i, b) { return {type: 'PROCEDURE', ident:i, block:b }; },
         peg$c10 = function(s) { return { sentence:s }; },
-        peg$c11 = function(i, e) { return {type: '=', left: i, right: e}; },
+        peg$c11 = function(i, e) { return {type: 'ASSIGN', left: i, right: e}; },
         peg$c12 = function(c, st, sf) { return {type: 'IFELSE', condition:c, true_st:st, false_st:sf }; },
         peg$c13 = function(c, s) { return {type: 'IF', condition:c, statement:s }; },
         peg$c14 = function(i, a) { return {type: 'CALL', value:i, arguments:a }; },
@@ -959,9 +959,15 @@ pl0 = (function() {
                         if (s2 !== peg$FAILED) {
                           s3 = peg$parseEND();
                           if (s3 !== peg$FAILED) {
-                            peg$reportedPos = s0;
-                            s1 = peg$c18(s2);
-                            s0 = s1;
+                            s4 = peg$parseSEMICOLON();
+                            if (s4 !== peg$FAILED) {
+                              peg$reportedPos = s0;
+                              s1 = peg$c18(s2);
+                              s0 = s1;
+                            } else {
+                              peg$currPos = s0;
+                              s0 = peg$c0;
+                            }
                           } else {
                             peg$currPos = s0;
                             s0 = peg$c0;
