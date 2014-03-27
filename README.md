@@ -1,7 +1,36 @@
-# Sinatra example Using PEG.js and DataMapper
+###ETSII ULL Grado de Informática-Asignatura: Procesadores de Lenguajes
+###Práctica 6: Analizador de PL0 Ampliado Usando PEG.js
 
-* [PEG.js](http://pegjs.majda.cz/)
-* [DataMapper](http://datamapper.org/docs/)
-* [PL0 Grammar. Wikipedia](http://en.wikipedia.org/wiki/Recursive_descent_parser)
-* [ULL-ETSII-GRADO-PL-13-14](https://plus.google.com/u/0/communities/107031495100582318205)
-* [PL Entorno virtual de docencia institucional 2013/2014 ULL](http://campusvirtual.ull.es/1314/course/view.php?id=1104)
+## Descripción
+
+
+##Desarrollo
+
+Los lenguajes y herramientas más utilizados para el desarrollo del presente proyecto fueron: 
+
+  * Heroku
+  * Sinatra
+  * Ruby
+
+## Enlaces
+
+Adrián:
+
+[Despliegue en Heroku]()
+
+[Test]()
+
+Sara:
+
+[Despliegue en Heroku]()
+
+[Test]()
+
+## Autores
+
+  - Adrián González Martín [Ir a perfil](https://github.com/alu4073)
+  - Sara Martín Molina [Ir a perfil](https://github.com/alu4102)
+
+## Licencia
+
+Este proyecto se distribuye bajo la licencia MIT. Para saber más, leer el fichero ['licenciaMIT'](https://github.com/alu4102/p5AnalizadorDPR/blob/sara/licenciaMIT.txt).
