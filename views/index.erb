@@ -1,8 +1,4 @@
 <div id="content">
-  <p class="loadfile">
-    <input type="file" id="examples" />
-  </p>
-  <p>
   <nav>
   <ul>
     <% programs.each do |p| %>
@@ -10,30 +6,46 @@
     <% end %>
   </ul>
   </nav>
-  <table>
+  <p> Para analizar un código introdúzcalo en el cuadro de abajo. </p> 
+  <form action="/save" method="post">
+     <textarea id="input" name="input" autofocus cols="80" rows="10">
+<%= source %>
+     </textarea>
+     <br/>
+     <label for="saveas"> Para guardar el código anterior introduzca un nombre para el mismo y presione INTRO: <input id="saveas" type="text" name="fname" title="name" pattern="\w+" /></label>
+     </form>
+    <table>
     <tr>
       <td>
-        <form action="/save" method="post">
-          <textarea id="input" name="input" 
-                    autofocus cols = "40" rows = "4">
-<%= source %>
-          </textarea>
-          <br/>
-          <label for="saveas">Save as</label>
-          <input id="saveas" type="text" name="fname" 
-                 title="name" pattern="\w+" />
-        </form>
+        
       </td>
-      <td><button id="parse" type="button">parse</button></td>
+      <td></td>
     </tr>
   </table>
   </p>
+  <p> O seleccione un fichero con su código. </p>
+    <p>
+    <input type="file" id="examples" />
+  </p>
+  <br>
+  <button id="parse" type="button" class="myButton">Analizar</button>
+  
+  <p> Árbol generado: </p> 
   <div class="output">
     <pre>
 <span id="output"></span> <!-- Output goes here! --> 
     </pre>
   </div>
 </div>
+
+<!-- Script para el CodeMirror -->
+<script>
+    // Generar un editor CodeMirror a partir del textarea INPUT (se borra y se reemplaza).
+    var editor = CodeMirror.fromTextArea(document.getElementById("input"), {
+      lineNumbers: true,
+      viewportMargin: Infinity
+    });
+</script>
 
 <script src="pl0.js"></script>
 <script src="main.js"></script>

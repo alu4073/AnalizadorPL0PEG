@@ -49,8 +49,8 @@ Recuerde que un PEG $G$ es una cuaterna $G =(\Sigma,V,P,S)$.
             
       st             = i:ID ASSIGN e:exp SEMICOLON      
                      / i:ID ASSIGN e:exp    
-                     / IF e:exp THEN st:st ELSE sf:st  
-                     / IF e:exp THEN s:st  
+                     / IF c:cond THEN st:st ELSE sf:st  
+                     / IF c:cond THEN s:st  
                      / CALL i:ID LEFTPAR a:(identificators)+ RIGHTPAR SEMICOLON 
                      / CALL i:ID SEMICOLON 
                      / P e:exp  
