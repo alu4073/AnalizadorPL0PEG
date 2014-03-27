@@ -1,5 +1,18 @@
 body {
-  font-family: Helvetica, Arial, sans-serif; }
+  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+	color: #000000;
+	font-size: 16;
+	padding: 5;
+	text-shadow: 1px 1px 1px #A1A1A1;
+
+  background-color: #fff; 
+  background-image: 
+  linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+  linear-gradient(#eee .1em, transparent .1em);
+  background-size: 100% 1.2em;
+  margin-left:100px;
+  margin-right:20px;
+}
 
 h1 {
   color: #990033;
@@ -80,4 +93,346 @@ nav a.current {
   background-color: #990033; }
 
 .centered {
-  text-align: center; }
+  text-align: center; 
+}
+
+
+#mocha {
+  font: 20px / 1.5 "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+  margin: 10px 20px;
+  ul, li {
+    margin: 0;
+    padding: 0;
+  }
+  ul {
+    list-style: none;
+  }
+  h1, h2 {
+    margin: 0;
+  }
+  h1 {
+    margin-top: 15px;
+    font-size: 1em;
+    font-weight: 200;
+    a {
+      text-decoration: none;
+      color: #0066FF;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .suite .suite h1 {
+    margin-top: 0;
+    font-size: .8em;
+  }
+  .hidden {
+    display: none;
+  }
+  h2 {
+    font-size: 12px;
+    font-weight: normal;
+    cursor: pointer;
+  }
+  .suite {
+    margin-left: 15px;
+  }
+  .test {
+    margin-left: 15px;
+    overflow: hidden;
+    &.pending:hover h2::after {
+      content: '(pending)';
+      font-family: arial, sans-serif;
+    }
+    &.pass {
+      &.medium .duration {
+        background: #c09853;
+      }
+      &.slow .duration {
+        background: #b94a48;
+      }
+      &::before {
+        content: '✓';
+        font-size: 12px;
+        display: block;
+        float: left;
+        margin-right: 5px;
+        color: #00d6b2;
+      }
+      .duration {
+        font-size: 9px;
+        margin-left: 5px;
+        padding: 2px 5px;
+        color: #fff;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+        border-radius: 5px;
+      }
+      &.fast .duration {
+        display: none;
+      }
+    }
+    &.pending {
+      color: #0b97c4;
+      &::before {
+        content: '◦';
+        color: #0b97c4;
+      }
+    }
+    &.fail {
+      color: #c00;
+      pre {
+        color: black;
+      }
+      &::before {
+        content: '✖';
+        font-size: 12px;
+        display: block;
+        float: left;
+        margin-right: 5px;
+        color: #c00;
+      }
+    }
+    pre {
+      &.error {
+        color: #c00;
+        max-height: 300px;
+        overflow: auto;
+      }
+      display: block;
+      float: left;
+      clear: left;
+      font: 12px / 1.5 monaco, monospace;
+      margin: 5px;
+      padding: 15px;
+      border: 1px solid #eee;
+      max-width: 85%;
+      /*(1)*/
+      max-width: calc(100% - 42px);
+      /*(2)*/
+      word-wrap: break-word;
+      border-bottom-color: #ddd;
+      -webkit-border-radius: 3px;
+      -webkit-box-shadow: 0 1px 3px #eee;
+      -moz-border-radius: 3px;
+      -moz-box-shadow: 0 1px 3px #eee;
+      border-radius: 3px;
+    }
+    h2 {
+      position: relative;
+    }
+    a.replay {
+      position: absolute;
+      top: 3px;
+      right: 0;
+      text-decoration: none;
+      vertical-align: middle;
+      display: block;
+      width: 15px;
+      height: 15px;
+      line-height: 15px;
+      text-align: center;
+      background: #eee;
+      font-size: 15px;
+      -moz-border-radius: 15px;
+      border-radius: 15px;
+      -webkit-transition: opacity 200ms;
+      -moz-transition: opacity 200ms;
+      transition: opacity 200ms;
+      opacity: 0.3;
+      color: #888;
+    }
+    &:hover a.replay {
+      opacity: 1;
+    }
+  }
+}
+
+/**
+ * (1): approximate for browsers not supporting calc
+ * (2): 42 = 2*15 + 2*10 + 2*1 (padding + margin + border)
+ *      ^^ seriously
+ */
+
+#mocha-report {
+  &.pass .test.fail, &.fail .test.pass {
+    display: none;
+  }
+  &.pending .test {
+    &.pass, &.fail {
+      display: none;
+    }
+    &.pass.pending {
+      display: block;
+    }
+  }
+}
+
+#mocha-error {
+  color: #c00;
+  font-size: 1.5em;
+  font-weight: 100;
+  letter-spacing: 1px;
+}
+
+#mocha-stats {
+  position: fixed;
+  top: 15px;
+  right: 10px;
+  font-size: 12px;
+  margin: 0;
+  color: #888;
+  z-index: 1;
+  .progress {
+    float: right;
+    padding-top: 0;
+  }
+  em {
+    color: black;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+    &:hover {
+      border-bottom: 1px solid #eee;
+    }
+  }
+  li {
+    display: inline-block;
+    margin: 0 5px;
+    list-style: none;
+    padding-top: 11px;
+  }
+  canvas {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+#mocha code {
+  .comment {
+    color: #ddd;
+  }
+  .init {
+    color: #2f6fad;
+  }
+  .string {
+    color: #5890ad;
+  }
+  .keyword {
+    color: #8a6343;
+  }
+  .number {
+    color: #2f6fad;
+  }
+}
+
+@media screen and (max-device-width: 480px) {
+  #mocha {
+    margin: 60px 0px;
+    #stats {
+      position: absolute;
+    }
+  }
+}
+
+#original { 
+    background-color: transparent; 
+    padding: 15px 30px;
+    width:94%;
+    border: solid #330099;  
+    float: center;
+    border-radius: 25px; 	/*Bordes redondeados*/
+    line-height:19px;
+}
+
+#OUTPUT { 
+  margin-left:20px;
+}
+
+.myButton {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1fc1fc), color-stop(1, #04788a));
+	background:-moz-linear-gradient(top, #1fc1fc 5%, #04788a 100%);
+	background:-webkit-linear-gradient(top, #1fc1fc 5%, #04788a 100%);
+	background:-o-linear-gradient(top, #1fc1fc 5%, #04788a 100%);
+	background:-ms-linear-gradient(top, #1fc1fc 5%, #04788a 100%);
+	background:linear-gradient(to bottom, #1fc1fc 5%, #04788a 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1fc1fc', endColorstr='#04788a',GradientType=0);
+	background-color:#1fc1fc;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
+	border-radius:28px;
+	border:1px solid #29668f;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	font-weight:bold;
+	padding:2px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3d768a;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #04788a), color-stop(1, #1fc1fc));
+	background:-moz-linear-gradient(top, #04788a 5%, #1fc1fc 100%);
+	background:-webkit-linear-gradient(top, #04788a 5%, #1fc1fc 100%);
+	background:-o-linear-gradient(top, #04788a 5%, #1fc1fc 100%);
+	background:-ms-linear-gradient(top, #04788a 5%, #1fc1fc 100%);
+	background:linear-gradient(to bottom, #04788a 5%, #1fc1fc 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#04788a', endColorstr='#1fc1fc',GradientType=0);
+	background-color:#04788a;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+.myButtonAnalizar {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1fc1fc), color-stop(1, #04788a));
+	background:-moz-linear-gradient(top, #1fc1fc 5%, #04788a 100%);
+	background:-webkit-linear-gradient(top, #1fc1fc 5%, #04788a 100%);
+	background:-o-linear-gradient(top, #1fc1fc 5%, #04788a 100%);
+	background:-ms-linear-gradient(top, #1fc1fc 5%, #04788a 100%);
+	background:linear-gradient(to bottom, #1fc1fc 5%, #04788a 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1fc1fc', endColorstr='#04788a',GradientType=0);
+	background-color:#1fc1fc;
+	-moz-border-radius:28px;
+	-webkit-border-radius:28px;
+	border-radius:28px;
+	border:1px solid #29668f;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	font-weight:bold;
+	padding:6px 34px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3d768a;
+}
+
+.myButtonAnalizar:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #04788a), color-stop(1, #1fc1fc));
+	background:-moz-linear-gradient(top, #04788a 5%, #1fc1fc 100%);
+	background:-webkit-linear-gradient(top, #04788a 5%, #1fc1fc 100%);
+	background:-o-linear-gradient(top, #04788a 5%, #1fc1fc 100%);
+	background:-ms-linear-gradient(top, #04788a 5%, #1fc1fc 100%);
+	background:linear-gradient(to bottom, #04788a 5%, #1fc1fc 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#04788a', endColorstr='#1fc1fc',GradientType=0);
+	background-color:#04788a;
+}
+.myButtonAnalizar:active {
+	position:relative;
+	top:1px;
+}
+
+.hidden      { display: none; }
+.unhidden    { display: block; }
+
+
