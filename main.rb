@@ -28,6 +28,10 @@ get '/grammar' do
   erb :grammar
 end
 
+get '/ErrorGuardar' do
+  erb :errorguardar
+end
+
 get '/:selected?' do |selected|
   programs = PL0Program.all
   pp programs
@@ -43,15 +47,28 @@ post '/save' do
   name = params[:fname]
   c  = PL0Program.first(:name => name)
   puts "prog <#{c.inspect}>"
+  error = false
   if c
     c.source = params["input"]
     c.save
   else
+    if PL0Program.all.size == 10 
+       error = true
+       c = PL0Program.all.sample()
+       c.destroy!
+       
+    end
+       
     c = PL0Program.new
     c.name = params["fname"]
     c.source = params["input"]
     c.save
+  
   end
   pp c
-  redirect '/'
+  if error == true
+     redirect '/ErrorGuardar'
+  else
+     redirect '/'
+  end
 end
