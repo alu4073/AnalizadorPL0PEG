@@ -37,8 +37,8 @@ process = PROCEDURE i:ID LEFTPAR a:(arguments)+ RIGHTPAR COLON b:(block)+ END SE
 
 st     = i:ID ASSIGN e:exp SEMICOLON { return {type: '=', left: i, right: e}; }  /* Sentencia de asignación */     
        / i:ID ASSIGN e:exp { return {type: '=', left: i, right: e}; }   
-       / IF e:exp THEN st:st ELSE sf:st  { return {type: 'IFELSE', condition:e, true_st:st, false_st:sf }; }
-       / IF e:exp THEN s:st  { return {type: 'IF', condition:e, statement:s }; }
+       / IF c:cond THEN st:st ELSE sf:st  { return {type: 'IFELSE', condition:c, true_st:st, false_st:sf }; }
+       / IF c:cond THEN s:st  { return {type: 'IF', condition:c, statement:s }; }
        / CALL i:ID LEFTPAR a:(identificators)+ RIGHTPAR SEMICOLON { return {type: 'CALL', value:i, arguments:a }; }
        / CALL i:ID SEMICOLON { return {type: 'CALL', value:i}; }
        / P e:exp  { return {type: 'P', value:e }; }
@@ -61,7 +61,7 @@ _ = $[ \t\n\r]*
 ASSIGN     = _ op:'=' _  { return op; }
 ADD        = _ op:[+-] _ { return op; }
 MUL        = _ op:[*/] _ { return op; }
-COMPARISON = _ op:[<>=!][=] _ { return op; }
+COMPARISON = _ op:$([<>=!][=]) _ { return op; }
            / _ op:[<>] _ { return op; }
 
 LEFTPAR  = _"("_
