@@ -28,45 +28,44 @@ Recuerde que un PEG $G$ es una cuaterna $G =(\Sigma,V,P,S)$.
   <ol>
 <pre>
 
-      program        = b:(block)+ DOT 
+      program        = (block)+ DOT 
 
-      block          = CONST c:(constants)+ SEMICOLON 
-                     / VAR v:(identificators)+ SEMICOLON 
-                     / p:(process)+ 
+      block          = CONST (constants)+ SEMICOLON 
+                     / VAR (identificators)+ SEMICOLON 
+                     / (process)* st 
 
-      constants      = COMMA i:ID ASSIGN n:NUMBER 
-                     / i:ID ASSIGN n:NUMBER 
+      constants      = COMMA ID ASSIGN NUMBER 
+                     / ID ASSIGN NUMBER 
                
-      identificators = COMMA i:ID 
-                     / i:ID 
+      identificators = COMMA ID 
+                     / ID 
 
-      arguments      = COMMA VAR i:ID 
-                     / VAR i:ID 
+      arguments      = COMMA VAR ID 
+                     / VAR ID 
                
-      process        =  PROCEDURE i:ID LEFTPAR a:(arguments)+ RIGHTPAR COLON b:(block)+ END SEMICOLON 
-                     / PROCEDURE i:ID COLON b:(block)+ END SEMICOLON 
-                     / s:st 
+      process        = PROCEDURE ID LEFTPAR (arguments)+ RIGHTPAR COLON (block)+ END SEMICOLON 
+                     / PROCEDURE ID COLON (block)+ END SEMICOLON  
             
-      st             = i:ID ASSIGN e:exp SEMICOLON      
-                     / i:ID ASSIGN e:exp    
-                     / IF c:cond THEN st:st ELSE sf:st  
-                     / IF c:cond THEN s:st  
-                     / CALL i:ID LEFTPAR a:(identificators)+ RIGHTPAR SEMICOLON 
-                     / CALL i:ID SEMICOLON 
-                     / P e:exp  
-                     / WHILE c:cond DO s:st  
-                     / BEGIN s:(st)+ END SEMICOLON 
+      st             = ID ASSIGN exp SEMICOLON      
+                     / ID ASSIGN exp    
+                     / IF cond THEN st ELSE st  
+                     / IF THEN st  
+                     / CALL ID LEFTPAR (identificators)+ RIGHTPAR SEMICOLON 
+                     / CALL ID SEMICOLON 
+                     / P exp  
+                     / WHILE cond DO st  
+                     / BEGIN (st)+ END SEMICOLON 
 
-      cond           = ODD e:exp  
-                     / e1:exp op:COMPARISON e2:exp  
+      cond           = ODD exp  
+                     / exp COMPARISON exp  
 
-      exp            = t:term r:(ADD term)*   
+      exp            = term (ADD term)*   
 
-      term           = f:factor r:(MUL factor)* 
+      term           = factor (MUL factor)* 
 
       factor         = NUMBER
                      / ID
-                     / LEFTPAR t:exp RIGHTPAR   
+                     / LEFTPAR exp RIGHTPAR   
 
 
 

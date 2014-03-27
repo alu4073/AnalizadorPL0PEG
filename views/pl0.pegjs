@@ -20,7 +20,7 @@ program = b:(block)+ DOT { return {program:b }; }
 
 block =  CONST c:(constants)+ SEMICOLON { return {type: 'CONST', value:c }; }
       /  VAR v:(identificators)+ SEMICOLON { return {type: 'VAR', value:v }; }
-      /  p:(process)+  { return { sentences:p }; }
+      /  p:(process)* s:st { return { procedure:p, sentence:s }; }
 
 constants = COMMA i:ID ASSIGN n:NUMBER { return {type: '=', ident:i, value:n }; }
           / i:ID ASSIGN n:NUMBER { return {type: '=', ident:i, value:n }; }
@@ -33,7 +33,6 @@ arguments = COMMA VAR i:ID { return {ident:i}; }
 
 process = PROCEDURE i:ID LEFTPAR a:(arguments)+ RIGHTPAR COLON b:(block)+ END SEMICOLON { return {type: 'PROCEDURE', ident:i, arguments:a, block:b }; }
         / PROCEDURE i:ID COLON b:(block)+ END SEMICOLON { return {type: 'PROCEDURE', ident:i, block:b }; }
-        / s:st { return { sentence:s }; }
 
 st     = i:ID ASSIGN e:exp SEMICOLON { return {type: 'ASSIGN', left: i, right: e}; }  /* Sentencia de asignación */     
        / i:ID ASSIGN e:exp { return {type: 'ASSIGN', left: i, right: e}; }   
