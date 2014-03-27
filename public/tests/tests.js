@@ -1,6 +1,6 @@
 var assert = chai.assert;
 
-suite('Tests', function(){
+suite('Detección correcta de códigos simples', function(){
   test('Comprobación de asignación', function(){
     var aux = pl0.parse("variable = 150 .");
     assert.equal(aux.program[0].sentence.type, "ASSIGN")
@@ -32,6 +32,20 @@ suite('Tests', function(){
     assert.equal(aux.program[0].sentence.condition.type, "==")
   });
 
+  test('Comprobación de recursividad a izquierdas', function(){
+    var aux = pl0.parse("variable = 10 - 5 - 1 .");
+    assert.equal(aux.program[0].sentence.type, "ASSIGN")
+    assert.equal(aux.program[0].sentence.right.type, "-")
+    assert.equal(aux.program[0].sentence.right.left.type, "-")
+  });
+
+  test('Comprobación de detección de errores', function(){
+    assert.throws(function() { pl0.parse("var1 = 500"); }, /Expected "."/);
+  });
+
+});
+
+suite('Detección correcta de códigos complejos', function(){
   test('Comprobación de IF', function(){
     var aux = pl0.parse("if variable1 == 100 then variable2 = 200.")
     assert.equal(aux.program[0].sentence.type, "IF")
@@ -72,16 +86,4 @@ suite('Tests', function(){
     assert.equal(aux.program[0].procedure[0].arguments[0].ident.value, "a")
     assert.equal(aux.program[0].procedure[0].arguments[1].ident.value, "b")
   });
-
-  test('Comprobación de recursividad a izquierdas', function(){
-    var aux = pl0.parse("variable = 10 - 5 - 1 .");
-    assert.equal(aux.program[0].sentence.type, "ASSIGN")
-    assert.equal(aux.program[0].sentence.right.type, "-")
-    assert.equal(aux.program[0].sentence.right.left.type, "-")
-  });
-
-  test('Comprobación de detección de errores', function(){
-    assert.throws(function() { pl0.parse("var1 = 500"); }, /Expected "."/);
-  });
-
 });
