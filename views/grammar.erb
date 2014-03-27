@@ -80,7 +80,7 @@ Recuerde que un PEG $G$ es una cuaterna $G =(\Sigma,V,P,S)$.
       COMMA      = _ op:[,] _ 
       COLON      = _ op:[:] _ 
       COMPARISON = _ op:[<>=!][=] _ 
-               / _ op:[<>] _ 
+                 / _ op:[<>] _ 
       ID       = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _         
       NUMBER   = _ digits:$[0-9]+ _ 
             
