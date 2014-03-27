@@ -21,32 +21,74 @@ Recuerde que un PEG $G$ es una cuaterna $G =(\Sigma,V,P,S)$.
 </ol>
 <ol>
   <li> $\Sigma = \{ =, +, -, *, /, (, ), 0 \ldots 9 \}$, 
-  <li> $V = \{ st, exp, term, factor \} \cup$ <br />
-  $\{ASSIGN, ADD, MUL, LEFTPAR, RIGHTPAR \} \cup$ <br />
-  $\{ID, NUMBER, \_ \}$
-  <li> Reglas de Análisis:
+  <li> $V = \{ program, block, constants, identificators, arguments, process, st, cond, exp, term, factor \} \cup$ <br />
+  $\{ASSIGN, ADD, MUL, LEFTPAR, RIGHTPAR, COLON, SEMICOLON, DOT, COMMA, COMPARISON \} \cup$ <br />
+  $\{ID, NUMBER, IF, THEN, ELSE, PROCEDURE, BEGIN, END, WHILE, DO, CALL, P, ODD, CONST, VAR, \_ \}$
+  <li> Reglas de análisis:
   <ol>
 <pre>
-st     = ID ASSIGN exp
-exp    = term   (ADD term)*
-term   = factor (MUL factor)*
 
-factor = NUMBER
-       / ID
-       / LEFTPAR exp RIGHTPAR
+      program        = b:(block)+ DOT 
 
-_ = $[ \t\n\r]*
+      block          = CONST c:(constants)+ SEMICOLON 
+                     / VAR v:(identificators)+ SEMICOLON 
+                     / p:(process)+ 
 
-ASSIGN   = _ '=' _
-ADD      = _ [+-] _
-MUL      = _ [*/] _
-LEFTPAR  = _"("_
-RIGHTPAR = _")"_
-ID       = _ [a-zA-Z_][a-zA-Z_0-9]* _
-NUMBER   = _ [0-9]+ _
+      constants      = COMMA i:ID ASSIGN n:NUMBER 
+                     / i:ID ASSIGN n:NUMBER 
+               
+      identificators = COMMA i:ID 
+                     / i:ID 
+
+      arguments      = COMMA VAR i:ID 
+                     / VAR i:ID 
+               
+      process        =  PROCEDURE i:ID LEFTPAR a:(arguments)+ RIGHTPAR COLON b:(block)+ END SEMICOLON 
+                     / PROCEDURE i:ID COLON b:(block)+ END SEMICOLON 
+                     / s:st 
+            
+      st             = i:ID ASSIGN e:exp SEMICOLON      
+                     / i:ID ASSIGN e:exp    
+                     / IF e:exp THEN st:st ELSE sf:st  
+                     / IF e:exp THEN s:st  
+                     / CALL i:ID LEFTPAR a:(identificators)+ RIGHTPAR SEMICOLON 
+                     / CALL i:ID SEMICOLON 
+                     / P e:exp  
+                     / WHILE c:cond DO s:st  
+                     / BEGIN s:(st)+ END 
+
+      cond           = ODD e:exp  
+                     / e1:exp op:COMPARISON e2:exp  
+
+      exp            = t:term r:(ADD term)*   
+
+      term           = f:factor r:(MUL factor)* 
+
+      factor         = NUMBER
+                     / ID
+                     / LEFTPAR t:exp RIGHTPAR   
+
+
+
+      _ = $[ \t\n\r]*
+
+      ASSIGN     = _ op:'=' _  
+      ADD        = _ op:[+-] _ 
+      MUL        = _ op:[*/] _ 
+      SEMICOLON  = _ op:[;] _ 
+      DOT        = _ op:[.] _ 
+      COMMA      = _ op:[,] _ 
+      COLON      = _ op:[:] _ 
+      COMPARISON = _ op:[<>=!][=] _ 
+               / _ op:[<>] _ 
+      ID       = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _         
+      NUMBER   = _ digits:$[0-9]+ _ 
+            
+
+
 </pre>
   </ol>
-  <li> Expresión de arranque: $st$
+  <li> Expresión de arranque: $program$
 </ol>
 <BR>
 <BR>
